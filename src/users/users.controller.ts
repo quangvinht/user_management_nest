@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Param,
   Patch,
   Post,
   Query,
@@ -10,6 +11,7 @@ import {
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UsersService } from './users.service';
+import { ObjectId } from 'mongoose';
 
 @Controller('api/users')
 export class UsersController {
@@ -18,6 +20,16 @@ export class UsersController {
   @Get()
   async getUsers() {
     return this.usersService.getUsers();
+  }
+
+  @Get(':id')
+  async getUser(@Param('id') _id: ObjectId) {
+    return this.usersService.getSingleUser(_id);
+  }
+
+  @Get('username/:username')
+  async getSingleUserByUsername(@Param('username') username: string) {
+    return this.usersService.getSingleUserByUsername(username);
   }
 
   @Get('search')

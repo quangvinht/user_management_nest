@@ -6,7 +6,7 @@ import {
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
-import { Model } from 'mongoose';
+import { Model, ObjectId } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 
 @Injectable()
@@ -15,6 +15,14 @@ export class UsersService {
 
   async getUsers(): Promise<User[]> {
     return this.userModel.find().exec();
+  }
+
+  async getSingleUser(id: ObjectId): Promise<User> {
+    return this.userModel.findById(id).exec();
+  }
+
+  async getSingleUserByUsername(username: string): Promise<User> {
+    return this.userModel.findOne({ username }).exec();
   }
 
   async searchByUsername(username: string): Promise<User[]> {
